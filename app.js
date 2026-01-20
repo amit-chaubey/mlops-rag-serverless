@@ -34,27 +34,42 @@ input.addEventListener("keydown", async (e) => {
   addMessage("PROCESSING...", "bot");
 
   try {
+    console.log("Sending request to:", API_URL);
+    console.log("Request payload:", { query: userText });
+    
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: userText }),
     });
 
+    console.log("Response status:", res.status, res.statusText);
+
     if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Error response:", errorText);
       throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     }
 
     const data = await res.json();
+    console.log("Response data:", data);
 
     // remove "PROCESSING..."
     chat.removeChild(chat.lastChild);
 
-    typeBotText(data.answer || data.response || data.message || "NO RESPONSE");
+    typeBotText(data.answer || data.response || data.message || JSON.stringify(data));
   } catch (err) {
     chat.removeChild(chat.lastChild);
-    const errorMsg = err.message || "UNKNOWN ERROR";
+    let errorMsg = err.message || "UNKNOWN ERROR";
+    
+    // Check for CORS errors
+    if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+      errorMsg = "CORS ERROR :: Check API Gateway CORS settings. Origin must be allowed.";
+    }
+    
     addMessage(`SYSTEM ERROR :: ${errorMsg}`, "bot");
-    console.error("API Error:", err);
+    console.error("Full error:", err);
+    console.error("API_URL was:", API_URL);
   }
 });
 
