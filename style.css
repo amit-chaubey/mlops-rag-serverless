@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #00ff9c;
+  font-family: 'VT323', monospace;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crt {
+  background: radial-gradient(circle, #001a12 0%, #000 70%);
+  padding: 20px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 0 40px #00ff9c55;
+}
+
+.terminal {
+  border: 2px solid #00ff9c;
+  padding: 15px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+#chat {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.msg {
+  margin-bottom: 12px;
+}
+
+.user {
+  color: #00c3ff;
+}
+
+.bot {
+  color: #00ff9c;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #00ff9c;
+  padding-top: 10px;
+}
+
+.prompt {
+  margin-right: 8px;
+}
+
+input {
+  background: black;
+  border: none;
+  outline: none;
+  color: #00ff9c;
+  font-family: inherit;
+  font-size: 18px;
+  width: 100%;
+}
+
