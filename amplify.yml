@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Injecting API_URL into config.js"
+        - |
+          cat > config.js << EOF
+          // API URL configuration - injected by Amplify during build
+          window.API_URL = "${API_URL}";
+          EOF
+    build:
+      commands:
+        - echo "Build complete - static site ready"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
+

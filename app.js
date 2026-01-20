@@ -1,6 +1,13 @@
 // API URL from config.js (set by Amplify environment variables)
 const API_URL = window.API_URL || "";
 
+// Debug: log API_URL status (remove in production if needed)
+if (!API_URL) {
+  console.warn("API_URL not configured - check Amplify environment variables");
+} else {
+  console.log("API_URL configured:", API_URL);
+}
+
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
 
