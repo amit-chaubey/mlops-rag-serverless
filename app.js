@@ -55,7 +55,28 @@ function sendMessage(userText) {
 
   const text = userText.trim().slice(0, 500);
   addMessage(`> ${text}`, "user");
-  addMessage("PROCESSING...", "bot");
+
+  var processingEl = null;
+  var processingInterval = null;
+  function showProcessing() {
+    var dots = 0;
+    processingEl = document.createElement("div");
+    processingEl.className = "msg bot processing";
+    processingEl.textContent = "PROCESSING";
+    chat.appendChild(processingEl);
+    chat.scrollTop = chat.scrollHeight;
+    processingInterval = setInterval(function () {
+      dots = (dots % 3) + 1;
+      processingEl.textContent = "PROCESSING" + ".".repeat(dots);
+      chat.scrollTop = chat.scrollHeight;
+    }, 400);
+  }
+  function stopProcessing() {
+    if (processingInterval) clearInterval(processingInterval);
+    if (processingEl && processingEl.parentNode) processingEl.parentNode.removeChild(processingEl);
+  }
+
+  showProcessing();
 
   (async function () {
     try {
@@ -70,14 +91,15 @@ function sendMessage(userText) {
       }
 
       const data = await res.json().catch(() => ({}));
-      chat.removeChild(chat.lastChild);
+      stopProcessing();
       typeBotText(getBotText(data) || "NO RESPONSE");
     } catch (err) {
-      chat.removeChild(chat.lastChild);
-      const errorMsg = err.message.includes("Failed to fetch")
-        ? "CORS ERROR :: Check webhook allowed origins"
+      stopProcessing();
+      var origin = window.location.origin;
+      var errorMsg = err.message.includes("Failed to fetch")
+        ? "CORS ERROR :: In n8n Chat Trigger add this to Allowed Origins: " + origin
         : err.message || "UNKNOWN ERROR";
-      addMessage(`SYSTEM ERROR :: ${errorMsg}`, "bot");
+      addMessage("SYSTEM ERROR :: " + errorMsg, "bot");
     }
   })();
 }
@@ -116,6 +138,6 @@ function typeBotText(text) {
     i++;
     if (i >= text.length) clearInterval(interval);
     chat.scrollTop = chat.scrollHeight;
-  }, 15);
+  }, 8);
 }
 
