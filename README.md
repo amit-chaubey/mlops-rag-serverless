@@ -238,7 +238,6 @@ For **showcase projects** and **development environments**, consider using **Pin
 
 - **Cons**:
   - External service (not AWS-native)
-  - Additional vendor dependency
 
 ### Production Recommendations
 

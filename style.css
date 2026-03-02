@@ -8,18 +8,94 @@ body {
   background: #000;
   color: #00ff9c;
   font-family: 'VT323', monospace;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.page-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
 .crt {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.samples-panel {
+  width: 100%;
+  margin-top: 16px;
+  padding: 0;
+  text-align: center;
+}
+
+.samples-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #00c3ff;
+  font-size: 18px;
+}
+
+.samples-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.sample-q {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid #00ff9c;
+  color: #00ff9c;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sample-q:hover {
+  background: #00ff9c;
+  color: #000;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-clear {
+  background: transparent;
+  border: 1px solid #00ff9c;
+  color: #00ff9c;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-clear:hover {
+  background: #00ff9c;
+  color: #000;
+}
+
+.page-center .crt {
   background: radial-gradient(circle, #001a12 0%, #000 70%);
   padding: 20px;
-  width: 90%;
-  max-width: 800px;
   box-shadow: 0 0 40px #00ff9c55;
 }
 

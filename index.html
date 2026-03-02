@@ -6,16 +6,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="crt">
-    <div class="terminal">
-      <div class="header">
+  <div class="page-center">
+    <div class="crt">
+      <div class="terminal">
+        <div class="header">
         <span>🟢 SYSTEM ONLINE</span>
-        <span class="blink">▋</span>
-      </div>
+        <span class="header-actions">
+          <button type="button" class="btn-clear" id="btnClear" title="Clear chat">CLEAR</button>
+          <span class="blink">▋</span>
+        </span>
+        </div>
 
-      <div id="chat"></div>
+        <div id="chat"></div>
 
-      <div class="input-area">
+        <div class="input-area">
         <span class="prompt">></span>
         <input
           id="userInput"
@@ -23,7 +27,12 @@
           placeholder="ASK THE MACHINE..."
           autocomplete="off"
         />
+        </div>
       </div>
+    </div>
+    <div class="samples-panel">
+      <span class="samples-label">Try asking:</span>
+      <div class="samples-list" id="sampleQuestions"></div>
     </div>
   </div>
 
