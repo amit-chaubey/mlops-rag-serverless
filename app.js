@@ -78,27 +78,40 @@ function sendMessage(userText) {
 
   showProcessing();
 
+  var timeoutMs = 60000;
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function () {
+    controller.abort();
+  }, timeoutMs);
+
   (async function () {
     try {
       const res = await fetch(API_URL + "?action=sendMessage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chatInput: text, sessionId: sessionId }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        throw new Error("HTTP " + res.status + ": " + res.statusText);
       }
 
       const data = await res.json().catch(() => ({}));
       stopProcessing();
       typeBotText(getBotText(data) || "NO RESPONSE");
     } catch (err) {
+      clearTimeout(timeoutId);
       stopProcessing();
-      var origin = window.location.origin;
-      var errorMsg = err.message.includes("Failed to fetch")
-        ? "CORS ERROR :: In n8n Chat Trigger add this to Allowed Origins: " + origin
-        : err.message || "UNKNOWN ERROR";
+      var errorMsg;
+      if (err.name === "AbortError") {
+        errorMsg = "REQUEST TIMED OUT :: Backend took too long. Try again later.";
+      } else if (err.message.includes("Failed to fetch")) {
+        errorMsg = "NETWORK ERROR :: Check connection or backend CORS settings.";
+      } else {
+        errorMsg = err.message || "UNKNOWN ERROR";
+      }
       addMessage("SYSTEM ERROR :: " + errorMsg, "bot");
     }
   })();
