@@ -1,0 +1,7 @@
+{
+  "name": "aws-chatbot-ui-rag",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/inject-env.js"
+  }
+}
